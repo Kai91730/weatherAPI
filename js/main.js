@@ -30,14 +30,12 @@ function processedData (data)
 {
 	//console.log("callback some data~");
 	console.log(data);  
+	$content.append("發布時間：" + data[0].PublishTime + "<p>");
 	for (i=0;i<data.length;i++)
 	{
-		$content.append("地點：" + data[i].County + data[i].SiteName + "<br>" + " 		空氣品質指標：" + data[i].AQI + " 狀態：" + 
-		data[i].Status + " 風速：" + data[i].WindSpeed + " 空氣污染指標物：" + data[i].Pollutant + " 發布時間：" + 
-		data[i].PublishTime + "<p>");
+		$content.append("地點：" + data[i].County + data[i].SiteName + "<br>" + " 		空氣品質指標：" + data[i].AQI + " 風速：" + 
+			data[i].WindSpeed + " 空氣污染指標物：" + data[i].Pollutant + " 狀態：" + data[i].Status + "<p>");
 	}
-	
-
 }
 
 // var btn = document.getElementById("btn");
