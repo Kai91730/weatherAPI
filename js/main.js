@@ -3,7 +3,7 @@ var apiurl = "https://opendata.epa.gov.tw/ws/Data/AQI/?$format=json";
 var src = apiurl + "&callback=processedData"
 var script =  "<script src=" + src + "></script>";
 var $content = $('#content');
-var jq=$.noConflict();
+//var jq=$.noConflict();
 getAPI();
 
 function getAPI()
