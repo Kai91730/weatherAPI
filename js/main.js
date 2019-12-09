@@ -1,6 +1,6 @@
 //var myRequest = new XMLHttpRequest();
 var apiurl = "https://opendata.epa.gov.tw/ws/Data/AQI/?$format=json";
-var src = apiurl + "&callback=processedData"
+var src = apiurl + "&callback=dataObj"
 var script =  "<script src=" + src + "></script>";
 
 var northS = new Set(["臺北市","新北市","基隆市","宜蘭縣","桃園市","新竹縣","新竹市"]);
@@ -19,42 +19,59 @@ function getAPI()
 
 	$.ajax({
 	    url: apiurl,
-	    dataType: 'json',
+	    dataType: 'jsonp', //json"p" for callback
 	    type: 'GET',
 	    success: function (responseText)
 	    {
-	    	processedData(responseText);
-	        //console.log(responseText);
+	    	console.log(responseText);
+	    	// processedData(responseText);
+
+	    	var Obj = new dataObj(responseText);
+			Obj.time();
+			Obj.show();
+	    },
+	    error: function(jqXHR, textStatus, errorThrown )
+	    {
+	    	console.log("failed to get data or something");
+	    	alert("textStatus:" + textStatus);
+	    	alert("errorThrown:" + errorThrown);
 	    }
 	})
 }
 	
-
-function processedData (data)  
+function dataObj(data)
 {
-	//console.log("callback some data~");
-	console.log(data);  
-	$('#content').append("發布時間：" + data[0].PublishTime + "<p>");
-	result(data);
-	// for (i=0;i<data.length;i++)
-	// {	
-	// 	if (data[i].Pollutant == "" )
-	// 		data[i].Pollutant = "(未標示)";
-	// 	$('#content').append("地點：" + data[i].County + " " + data[i].SiteName + "<br>" + " 		空氣品質指標：" + data[i].AQI + " 風速：" 
-	// 		+ data[i].WindSpeed + " 空氣污染指標物：" + data[i].Pollutant + " 狀態：" + data[i].Status + "<p>");
-	// }
+	this.time = function()
+	{
+		$('#content').append("發布時間：" + data[0].PublishTime + "<p>");
+	}	
 
+	this.show = function()
+	{
+		locate("-------------北部-------------" + "<p>",northS,data);
+		locate("-------------中部-------------" + "<p>",westS,data);
+		locate("-------------東部-------------" + "<p>",eastS,data);
+		locate("-------------南部-------------" + "<p>",southS,data);
+		locate("-------------外島-------------" + "<p>",outerS,data);
+	}
 }
+
+// function processedData (data)  
+// {
+// 	//console.log("callback some data~"); 
+// 	//$('#content').append("發布時間：" + data[0].PublishTime + "<p>");
+// 	//result(data);
+	
+
+// }
 
 function result (data)
 {
-
 	locate("-------------北部-------------" + "<p>",northS,data);
 	locate("-------------中部-------------" + "<p>",westS,data);
 	locate("-------------東部-------------" + "<p>",eastS,data);
 	locate("-------------南部-------------" + "<p>",southS,data);
 	locate("-------------外島-------------" + "<p>",outerS,data);
-
 }
 
 function locate (text,set,data)
@@ -78,6 +95,7 @@ function locate (text,set,data)
 			}
 	 	}
 }
+
 
 
 // var btn = document.getElementById("btn");
