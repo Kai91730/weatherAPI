@@ -10,6 +10,7 @@ var southS = new Set(["嘉義縣","嘉義市","臺南市","高雄市","屏東縣
 var outerS = new Set(["澎湖縣","金門縣","連江縣"]);
 //var $content = $('#content');
 getAPI();
+
 function getAPI()
 {
 	$(document).ready(function()
@@ -32,7 +33,7 @@ function getAPI()
 	    },
 	    error: function(jqXHR, textStatus, errorThrown )
 	    {
-	    	console.log("failed to get data or something");
+	    	console.log("failed to get data or timeout");
 	    	alert("textStatus:" + textStatus);
 	    	alert("errorThrown:" + errorThrown);
 	    }
@@ -43,39 +44,23 @@ function dataObj(data)
 {
 	this.time = function()
 	{
-		$('#content').append("發布時間：" + data[0].PublishTime + "<p>");
+		$('#time').append("發布時間：" + data[0].PublishTime + "<p>");
 	}	
 
 	this.show = function()
 	{
-		locate("-------------北部-------------" + "<p>",northS,data);
-		locate("-------------中部-------------" + "<p>",westS,data);
-		locate("-------------東部-------------" + "<p>",eastS,data);
-		locate("-------------南部-------------" + "<p>",southS,data);
-		locate("-------------外島-------------" + "<p>",outerS,data);
+		locate("<caption>"+"北部"+"</caption>",northS,data); //caption 跟隨table
+		locate("<caption>"+"中部"+"</caption>",westS,data);
+		locate("<caption>"+"東部"+"</caption>",eastS,data);
+		locate("<caption>"+"南部"+"</caption>",southS,data);
+		locate("<caption>"+"外島"+"</caption>",outerS,data);
 	}
-}
-
-// function processedData (data)  
-// {
-// 	//console.log("callback some data~"); 
-// 	//$('#content').append("發布時間：" + data[0].PublishTime + "<p>");
-// 	//result(data);
-	
-
-// }
-
-function result (data)
-{
-	locate("-------------北部-------------" + "<p>",northS,data);
-	locate("-------------中部-------------" + "<p>",westS,data);
-	locate("-------------東部-------------" + "<p>",eastS,data);
-	locate("-------------南部-------------" + "<p>",southS,data);
-	locate("-------------外島-------------" + "<p>",outerS,data);
 }
 
 function locate (text,set,data)
 {
+
+	$('#content').append("<table>");  //現在有1+5個table
 	$('#content').append(text);
 
 	for (i=0;i<data.length;i++)
@@ -90,10 +75,15 @@ function locate (text,set,data)
 				{
 					data[i].WindSpeed = "(未標示)";
 				}
-				$('#content').append("地點：" + data[i].County + " " + data[i].SiteName + "<br>" + " 		空氣品質指標：" + data[i].AQI + " 風速：" 
-					+ data[i].WindSpeed + " 空氣污染指標物：" + data[i].Pollutant + " 狀態：" + data[i].Status + "<p>");
+				$('#content').append("<tr>" + "<td>"  + data[i].County + " " + data[i].SiteName  + "<br>" 
+					 + " 空氣品質指標：" + data[i].AQI + 
+					 " 風速：" + data[i].WindSpeed 
+					 + " 空氣污染指標物：" + data[i].Pollutant 
+					 + " 狀態：" + data[i].Status + "</td>" +"</tr>" );
 			}
 	 	}
+
+ 	$('#content').append("</table>");
 }
 
 
