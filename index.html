@@ -3,7 +3,7 @@
 	<meta charset="utf-8">
 	<title>API</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" type="text/javascript">var jq=$.noConflict();</script>
-	<!-- var jq=$.noConflict(); -->
+
 
 	<!-- <script src=https://opendata.epa.gov.tw/ws/Data/AQI></script> -->
 </head>
@@ -11,9 +11,11 @@
 <body>
 	<h1>OpenData串接－空氣品質指標(AQI)</h1> 
 	<a href="https://opendata.epa.gov.tw/ws/Data/AQI/?$format=json">來源 </a>
-
-	<div id="content"></div>
-
+	<table border='5'>
+			<div id="time"></div>
+			<td>
+				<div id="content"></div>
+			</td>
+	</table>
 	<script src="./js/main.js"></script>	
-
 </body>
